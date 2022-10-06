@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goserver-deployment
+  labels:
+    app: goserver
+spec:
+  # modify replicas according to your case
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goserver
+  template:
+    metadata:
+      labels:
+        app: goserver       
+    spec:
+      containers:
+        - name: goserver
+          resources:
+            requests:
+              cpu: 100m
+              memory: 20Mi              
+            limits:
+              cpu: 333m
+              memory: 25Mi
+          image: "darioeliseo/goserver:v0.3.11"
+          envFrom: 
+            - configMapRef:
+                name: goserver-env
+            - secretRef:
+                name: goserver-secret
+          volumeMounts:
+            - mountPath: "/app/config"
+              name: config
+              readOnly: true
+
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            periodSeconds: 3
+            failureThreshold: 30
+      
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            periodSeconds: 3
+            failureThreshold: 1
+            initialDelaySeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            periodSeconds: 5
+            failureThreshold: 3
+            timeoutSeconds: 1
+            successThreshold: 1
+            initialDelaySeconds: 15
+
+      volumes:
+        - name: config 
+          configMap:
+            name: goserver-conf
+            items:
+              - key: members
+                path: members.txt
+              - key: ui.properties
+                path: ui-properties.conf
+
+          
+
