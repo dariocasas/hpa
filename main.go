@@ -10,8 +10,9 @@ import (
 	"time"
 )
 
+const randIni = 20
 var startedAt = time.Now()
-var randIniSecs float64 = rand.Float64() * 20
+var randIniSecs float64 = rand.Float64() * randIni
 
 func main() {
 
