@@ -50,7 +50,7 @@ func healthz(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		printInfo()
 		fmt.Fprintf(w, "Initializing. Duration: %v", duration.Seconds())
-	} else if duration.Seconds() > okSecs+iniSecs+randIniSecs {
+	} else if (okSecs>0) && (duration.Seconds() > okSecs+iniSecs+randIniSecs) {
 		w.WriteHeader(http.StatusInternalServerError)
 		printInfo()
 		fmt.Fprintf(w, "Error. Duration: %v", duration.Seconds())

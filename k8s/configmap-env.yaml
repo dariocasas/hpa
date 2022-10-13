@@ -6,5 +6,5 @@ data:
   NAME: "Kunta"
   AGE: "almost 58"
   INI_SECS: "10"
-  OK_SECS: "300"
+  OK_SECS: "0"
 

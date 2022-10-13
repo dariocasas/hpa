@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: goserver-deployment
+  name: goserver
   labels:
     app: goserver
 spec:
@@ -24,7 +24,7 @@ spec:
             limits:
               cpu: 333m
               memory: 25Mi
-          image: "darioeliseo/goserver:v0.3.11"
+          image: "darioeliseo/goserver:v0.3.12"
           envFrom: 
             - configMapRef:
                 name: goserver-env
